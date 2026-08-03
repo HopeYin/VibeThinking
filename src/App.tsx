@@ -20,6 +20,8 @@ import { QuickToolbar } from './components/features/QuickToolbar';
 import { SettingsDialog } from './components/features/SettingsDialog';
 import { ShortcutHelpDialog } from './components/features/ShortcutHelpDialog';
 import { AIDrawer } from './components/features/AIDrawer';
+import { ReportsDialog } from './components/features/ReportsDialog';
+import { runReview, runSummarize } from './components/features/aiActions';
 import { IMPORT_INPUT_ID } from './components/features/ImportButton';
 
 export default function App() {
@@ -101,6 +103,34 @@ export default function App() {
         title: '导入备份并恢复',
         keywords: 'import restore daoru huifu',
         run: () => document.getElementById(IMPORT_INPUT_ID)?.click(),
+      },
+      {
+        id: 'summarize',
+        title: '总结本会话',
+        keywords: 'summary zongjie summarize',
+        run: () => {
+          if (!activeSession) return;
+          useUIStore.getState().setAIDrawerOpen(true);
+          void runSummarize(activeSession.id, toast);
+        },
+      },
+      {
+        id: 'review',
+        title: '生成复盘报告',
+        keywords: 'review fupan report',
+        run: () => {
+          if (!activeSession) return;
+          useUIStore.getState().setReportsOpen(true);
+          void runReview(activeSession.id, toast);
+        },
+      },
+      {
+        id: 'view-reports',
+        title: '查看复盘报告历史',
+        keywords: 'reports fupan lishi history',
+        run: () => {
+          if (activeSession) useUIStore.getState().setReportsOpen(true);
+        },
       },
       {
         id: 'test-connection',
@@ -189,6 +219,7 @@ export default function App() {
 
       <SettingsDialog open={settingsOpen} onClose={() => setSettingsOpen(false)} />
       <ShortcutHelpDialog open={helpOpen} onClose={() => setHelpOpen(false)} />
+      <ReportsDialog />
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} actions={actions} />
     </div>
   );

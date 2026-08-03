@@ -13,8 +13,14 @@ export interface Session {
   aiThread: AIMessage[]; // AI 讨论记录
   instructionPrompt: string; // 会话级指令 prompt
   reports: ReviewReport[]; // 复盘报告历史
+  summary?: SessionSummary; // AI 会话总结卡片（PRD F8；可选字段，向后兼容）
   createdAt: number;
   updatedAt: number;
+}
+
+export interface SessionSummary {
+  content: string; // Markdown
+  createdAt: number;
 }
 
 export type Block = OutputBlock | BreakpointBlock;

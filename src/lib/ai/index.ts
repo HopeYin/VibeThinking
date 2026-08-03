@@ -5,7 +5,7 @@
  * 架构红线：UI 组件不直接发 fetch，一律经由本层。
  */
 import type { ApiFormat, ProviderConfig } from '../../types';
-import type { ChatRequest, ChatChunk, ProviderAdapter, TestResult } from './types';
+import type { ChatMessage, ChatRequest, ChatChunk, ProviderAdapter, TestResult } from './types';
 import { openAIChatAdapter } from './openaiChat';
 import { openAIResponsesAdapter } from './openaiResponses';
 import { anthropicMessagesAdapter } from './anthropicMessages';
@@ -29,6 +29,27 @@ export async function* streamChat(
 
 export function testProviderConnection(cfg: ProviderConfig): Promise<TestResult> {
   return getAdapter(cfg.apiFormat).testConnection(cfg);
+}
+
+/**
+ * 一次性生成（非流式场景：标签建议 / 总结 / 复盘）。
+ * 内部仍走流式接口攒全文，避免为每家再写一套非流式解析。
+ */
+export async function generateText(
+  cfg: ProviderConfig,
+  model: string,
+  messages: ChatMessage[],
+  signal?: AbortSignal,
+): Promise<string> {
+  let out = '';
+  for await (const chunk of streamChat(cfg, {
+    messages,
+    model,
+    signal: signal ?? new AbortController().signal,
+  })) {
+    out += chunk.text;
+  }
+  return out;
 }
 
 export const API_FORMAT_LABELS: Record<ApiFormat, string> = {

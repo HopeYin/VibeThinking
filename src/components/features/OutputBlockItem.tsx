@@ -5,17 +5,21 @@
  * 编辑态：自适应高度 Textarea，实时保存，Esc/失焦回到阅读态；空块删除
  */
 import { useEffect, useState } from 'react';
-import { Plus, Tags, Trash2 } from 'lucide-react';
-import type { OutputBlock } from '../../types';
+import { Plus, Sparkles, Tags, Trash2, X } from 'lucide-react';
+import type { OutputBlock, Tag } from '../../types';
 import { useSessionsStore } from '../../stores/sessions';
+import { useSettingsStore } from '../../stores/settings';
 import { useTagsStore } from '../../stores/tags';
 import { formatRelativeTime } from '../../lib/time';
+import { generateText, normalizeException } from '../../lib/ai';
+import { buildSuggestTagsMessages, parseTagSuggestions } from '../../lib/prompts';
 import { Card } from '../ui/Card';
 import { Chip } from '../ui/Chip';
 import { Textarea } from '../ui/Textarea';
 import { IconButton } from '../ui/IconButton';
 import { Popover } from '../ui/Popover';
 import { ConfirmDialog } from '../ui/ConfirmDialog';
+import { useToast } from '../ui/Toast';
 import { TagPicker } from './TagPicker';
 
 interface OutputBlockItemProps {
@@ -28,9 +32,18 @@ export function OutputBlockItem({ block }: OutputBlockItemProps) {
   const setBlockTags = useSessionsStore((s) => s.setBlockTags);
   const deleteBlock = useSessionsStore((s) => s.deleteBlock);
   const tags = useTagsStore((s) => s.tags);
+  const providers = useSettingsStore((s) => s.providers);
+  const activeProviderId = useSettingsStore((s) => s.activeProviderId);
+  const activeModel = useSettingsStore((s) => s.activeModel);
+  const toast = useToast();
 
   const [editing, setEditing] = useState(block.content === '');
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [suggestions, setSuggestions] = useState<Tag[]>([]);
+  const [suggesting, setSuggesting] = useState(false);
+
+  const provider = providers.find((p) => p.id === activeProviderId) ?? null;
+  const aiReady = provider !== null && activeModel !== null;
 
   // 外部内容变化（如恢复备份）时同步编辑态
   useEffect(() => {
@@ -50,6 +63,60 @@ export function OutputBlockItem({ block }: OutputBlockItemProps) {
     setEditing(false);
     finalizeBlock(block.id);
   };
+
+  /** AI 建议标签（PRD F7）：建议不自动写入，必须用户确认 */
+  const suggestTags = async () => {
+    if (!provider || !activeModel || suggesting) return;
+    setSuggesting(true);
+    try {
+      const text = await generateText(
+        provider,
+        activeModel,
+        buildSuggestTagsMessages(
+          block.content,
+          tags.map((t) => t.name),
+        ),
+      );
+      const names = parseTagSuggestions(text);
+      const resolved = tags.filter((t) => names.includes(t.name) && !block.tagIds.includes(t.id));
+      if (resolved.length === 0) {
+        toast('AI 没有给出新的标签建议');
+      } else {
+        setSuggestions(resolved);
+      }
+    } catch (e) {
+      // 解析失败 / 请求失败统一静默降级为 toast
+      toast(e instanceof Error ? e.message : normalizeException(e).message, 'error');
+    } finally {
+      setSuggesting(false);
+    }
+  };
+
+  const adoptSuggestion = (tag: Tag) => {
+    setBlockTags(block.id, [...block.tagIds, tag.id]);
+    setSuggestions((list) => list.filter((t) => t.id !== tag.id));
+  };
+
+  const suggestionRow = suggestions.length > 0 && (
+    <div className="mt-1.5 flex flex-wrap items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
+      <span className="text-13 text-text-tertiary">AI 建议：</span>
+      {suggestions.map((t) => (
+        <Chip key={t.id} color={t.color} dashed title="点击采纳" onClick={() => adoptSuggestion(t)}>
+          {t.name}
+          <button
+            title="忽略"
+            className="opacity-60 hover:opacity-100"
+            onClick={(e) => {
+              e.stopPropagation();
+              setSuggestions((list) => list.filter((x) => x.id !== t.id));
+            }}
+          >
+            <X size={10} />
+          </button>
+        </Chip>
+      ))}
+    </div>
+  );
 
   if (editing) {
     return (
@@ -105,6 +172,11 @@ export function OutputBlockItem({ block }: OutputBlockItemProps) {
         >
           <TagPicker selectedIds={block.tagIds} onToggle={toggleTag} />
         </Popover>
+        {aiReady && (
+          <IconButton label="AI 建议标签" onClick={() => void suggestTags()} disabled={suggesting}>
+            <Sparkles size={14} className={suggesting ? 'animate-pulse text-accent' : ''} />
+          </IconButton>
+        )}
         <IconButton label="删除块" onClick={() => setConfirmDelete(true)}>
           <Trash2 size={14} />
         </IconButton>
@@ -136,6 +208,8 @@ export function OutputBlockItem({ block }: OutputBlockItemProps) {
         <span className="flex-1" />
         <span className="text-13 text-text-tertiary">{formatRelativeTime(block.updatedAt)}</span>
       </div>
+
+      {suggestionRow}
 
       <ConfirmDialog
         open={confirmDelete}

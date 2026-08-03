@@ -8,7 +8,7 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { nanoid } from 'nanoid';
-import type { AIMessage, Block, ReviewReport, Session } from '../types';
+import type { AIMessage, Block, ReviewReport, Session, SessionSummary } from '../types';
 import { VT_KEYS, localStorageAdapter, createRawValueStorage } from '../lib/storage';
 
 function defaultSessionTitle(now: Date = new Date()): string {
@@ -53,6 +53,7 @@ interface SessionsState {
   patchAIMessage: (sessionId: string, msgId: string, patch: Partial<AIMessage>) => void;
   clearAIThread: (sessionId: string) => void;
   addReport: (sessionId: string, content: string) => void;
+  setSummary: (sessionId: string, summary: SessionSummary | null) => void;
 
   // ── 备份恢复（M2 使用）──
   replaceAll: (sessions: Session[], activeSessionId: string | null) => void;
@@ -260,6 +261,16 @@ export const useSessionsStore = create<SessionsState>()(
             ...s,
             reports: [...s.reports, { id: nanoid(), content, createdAt: Date.now() } as ReviewReport],
           })),
+        })),
+
+      setSummary: (sessionId, summary) =>
+        set((st) => ({
+          sessions: patchSession(st.sessions, sessionId, (s) => {
+            const next = { ...s };
+            if (summary === null) delete next.summary;
+            else next.summary = summary;
+            return next;
+          }),
         })),
 
       replaceAll: (sessions, activeSessionId) => set({ sessions, activeSessionId }),

@@ -33,6 +33,7 @@ import { ConfirmDialog } from '../ui/ConfirmDialog';
 import { EmptyState } from '../ui/EmptyState';
 import { useToast } from '../ui/Toast';
 import { MarkdownView } from './MarkdownView';
+import { SummaryCard } from './SummaryCard';
 
 export function AIDrawer() {
   const open = useUIStore((s) => s.aiDrawerOpen);
@@ -193,6 +194,7 @@ function DrawerBody({ session }: { session: Session }) {
   return (
     <>
       <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto px-4 py-3">
+        <SummaryCard session={session} />
         {session.aiThread.length === 0 && (
           <p className="mt-8 text-center text-13 text-text-tertiary">
             我已经读过这条思维链。问点什么，或让我帮你挑漏洞。

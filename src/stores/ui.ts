@@ -13,6 +13,8 @@ interface UIState {
   exportMarkdownOpen: boolean;
   /** 导出全局备份对话框 */
   exportBackupOpen: boolean;
+  /** 复盘报告对话框 */
+  reportsOpen: boolean;
 
   toggleAIDrawer: () => void;
   setAIDrawerOpen: (open: boolean) => void;
@@ -21,6 +23,7 @@ interface UIState {
   setShortcutHelpOpen: (open: boolean) => void;
   setExportMarkdownOpen: (open: boolean) => void;
   setExportBackupOpen: (open: boolean) => void;
+  setReportsOpen: (open: boolean) => void;
 }
 
 export const useUIStore = create<UIState>((set) => ({
@@ -30,6 +33,7 @@ export const useUIStore = create<UIState>((set) => ({
   shortcutHelpOpen: false,
   exportMarkdownOpen: false,
   exportBackupOpen: false,
+  reportsOpen: false,
 
   toggleAIDrawer: () => set((s) => ({ aiDrawerOpen: !s.aiDrawerOpen })),
   setAIDrawerOpen: (open) => set({ aiDrawerOpen: open }),
@@ -38,4 +42,5 @@ export const useUIStore = create<UIState>((set) => ({
   setShortcutHelpOpen: (open) => set({ shortcutHelpOpen: open }),
   setExportMarkdownOpen: (open) => set({ exportMarkdownOpen: open }),
   setExportBackupOpen: (open) => set({ exportBackupOpen: open }),
+  setReportsOpen: (open) => set({ reportsOpen: open }),
 }));

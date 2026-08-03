@@ -7,8 +7,10 @@ import { MoreHorizontal } from 'lucide-react';
 import type { Session } from '../../types';
 import { selectSortedSessions, useSessionsStore } from '../../stores/sessions';
 import { useTagsStore } from '../../stores/tags';
+import { useUIStore } from '../../stores/ui';
 import { formatRelativeTime } from '../../lib/time';
 import { downloadTextFile, sanitizeFilename, sessionToMarkdown } from '../../lib/export';
+import { runSummarize } from './aiActions';
 import { cn } from '../../lib/cn';
 import { IconButton } from '../ui/IconButton';
 import { Popover } from '../ui/Popover';
@@ -161,6 +163,27 @@ function SessionItem({ session, active, onSelect, onDrop, dragDisabled }: Sessio
                       }}
                     >
                       导出 Markdown
+                    </button>
+                    <button
+                      className="w-full rounded-sm px-2 py-1.5 text-left text-sm hover:bg-bg-muted"
+                      onClick={() => {
+                        useSessionsStore.getState().setActiveSession(session.id);
+                        useUIStore.getState().setAIDrawerOpen(true);
+                        void runSummarize(session.id, toast);
+                        close();
+                      }}
+                    >
+                      总结本会话
+                    </button>
+                    <button
+                      className="w-full rounded-sm px-2 py-1.5 text-left text-sm hover:bg-bg-muted"
+                      onClick={() => {
+                        useSessionsStore.getState().setActiveSession(session.id);
+                        useUIStore.getState().setReportsOpen(true);
+                        close();
+                      }}
+                    >
+                      复盘报告
                     </button>
                     <button
                       className="w-full rounded-sm px-2 py-1.5 text-left text-sm text-danger hover:bg-bg-muted"

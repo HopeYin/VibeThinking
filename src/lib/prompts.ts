@@ -125,6 +125,20 @@ export function buildSuggestTagsMessages(blockContent: string, tagNames: string[
   ];
 }
 
+/**
+ * 解析标签建议的模型输出：容错地抠出第一个 JSON 对象并校验结构。
+ * 解析失败抛出 Error，调用方静默降级为 toast 报错（PRD F7）。
+ */
+export function parseTagSuggestions(text: string): string[] {
+  const match = text.match(/\{[\s\S]*\}/);
+  if (!match) throw new Error('AI 返回中没有 JSON');
+  const parsed = JSON.parse(match[0]) as unknown;
+  if (typeof parsed !== 'object' || parsed === null) throw new Error('AI 返回结构不正确');
+  const suggestions = (parsed as Record<string, unknown>)['suggestions'];
+  if (!Array.isArray(suggestions)) throw new Error('AI 返回缺少 suggestions 数组');
+  return suggestions.filter((s): s is string => typeof s === 'string').slice(0, 3);
+}
+
 // ── 会话总结（PRD 7.6.4 / F8）────────────────────────────────
 
 export function buildSummaryMessages(session: Session, tags: Tag[]): ChatMessage[] {
