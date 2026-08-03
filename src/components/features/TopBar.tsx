@@ -5,6 +5,8 @@ import { Brain, Settings } from 'lucide-react';
 import { useSettingsStore } from '../../stores/settings';
 import { useUIStore } from '../../stores/ui';
 import { IconButton } from '../ui/IconButton';
+import { ExportMenu } from './ExportMenu';
+import { ImportButton } from './ImportButton';
 
 export function TopBar() {
   const activeModel = useSettingsStore((s) => s.activeModel);
@@ -29,7 +31,8 @@ export function TopBar() {
 
       <div className="flex-1" />
 
-      {/* 导出 / 导入 按钮在 M2 接入全局备份 */}
+      <ExportMenu />
+      <ImportButton />
       <IconButton label="设置" onClick={() => setSettingsOpen(true)}>
         <Settings size={16} />
       </IconButton>

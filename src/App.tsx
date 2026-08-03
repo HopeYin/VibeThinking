@@ -1,25 +1,42 @@
 /**
  * App.tsx — 应用外壳：顶栏 + 左侧栏 + 主区思维流（+ M3 AI 抽屉）
+ * 挂载全局快捷键、命令面板与快捷键帮助面板（PRD F12）。
  */
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Lightbulb } from 'lucide-react';
 import { selectSortedSessions, useSessionsStore } from './stores/sessions';
 import { useUIStore } from './stores/ui';
+import { useGlobalShortcuts } from './hooks/useGlobalShortcuts';
 import { Button } from './components/ui/Button';
 import { EmptyState } from './components/ui/EmptyState';
+import { CommandPalette, type CommandAction } from './components/ui/CommandPalette';
 import { TopBar } from './components/features/TopBar';
 import { Sidebar } from './components/features/Sidebar';
 import { BlockList } from './components/features/BlockList';
 import { QuickToolbar } from './components/features/QuickToolbar';
 import { SettingsDialog } from './components/features/SettingsDialog';
+import { ShortcutHelpDialog } from './components/features/ShortcutHelpDialog';
+import { IMPORT_INPUT_ID } from './components/features/ImportButton';
 
 export default function App() {
+  useGlobalShortcuts();
+
   const sessions = useSessionsStore((s) => s.sessions);
   const activeSessionId = useSessionsStore((s) => s.activeSessionId);
   const setActiveSession = useSessionsStore((s) => s.setActiveSession);
   const createSession = useSessionsStore((s) => s.createSession);
+  const addOutputBlock = useSessionsStore((s) => s.addOutputBlock);
+  const addBreakpoint = useSessionsStore((s) => s.addBreakpoint);
+
   const settingsOpen = useUIStore((s) => s.settingsOpen);
   const setSettingsOpen = useUIStore((s) => s.setSettingsOpen);
+  const paletteOpen = useUIStore((s) => s.commandPaletteOpen);
+  const setPaletteOpen = useUIStore((s) => s.setCommandPaletteOpen);
+  const helpOpen = useUIStore((s) => s.shortcutHelpOpen);
+  const setHelpOpen = useUIStore((s) => s.setShortcutHelpOpen);
+  const toggleAIDrawer = useUIStore((s) => s.toggleAIDrawer);
+  const setExportMarkdownOpen = useUIStore((s) => s.setExportMarkdownOpen);
+  const setExportBackupOpen = useUIStore((s) => s.setExportBackupOpen);
 
   const sorted = selectSortedSessions(sessions);
   const activeSession = sessions.find((s) => s.id === activeSessionId) ?? null;
@@ -31,6 +48,95 @@ export default function App() {
       if (first) setActiveSession(first.id);
     }
   }, [sorted, activeSession, setActiveSession]);
+
+  // 命令面板动作清单（M3/M4 会追加测试连接 / 总结 / 复盘）
+  const actions = useMemo<CommandAction[]>(() => {
+    const list: CommandAction[] = [
+      {
+        id: 'new-block',
+        title: '新输出块',
+        hint: 'Alt+N',
+        keywords: 'block xin shuchukuai',
+        run: () => addOutputBlock(),
+      },
+      {
+        id: 'new-breakpoint',
+        title: '插入断点',
+        hint: 'Alt+B',
+        keywords: 'breakpoint duandian',
+        run: () => addBreakpoint(),
+      },
+      {
+        id: 'toggle-ai',
+        title: '打开 / 关闭 AI 讨论',
+        hint: 'Alt+I',
+        keywords: 'ai taolun chat',
+        run: toggleAIDrawer,
+      },
+      {
+        id: 'new-session',
+        title: '新建会话',
+        keywords: 'session xinjian huihua',
+        run: () => createSession(),
+      },
+      {
+        id: 'export-md',
+        title: '导出当前会话为 Markdown',
+        keywords: 'export markdown daochu',
+        run: () => setExportMarkdownOpen(true),
+      },
+      {
+        id: 'export-backup',
+        title: '导出全局 JSON 备份',
+        keywords: 'backup json beifen daochu',
+        run: () => setExportBackupOpen(true),
+      },
+      {
+        id: 'import-backup',
+        title: '导入备份并恢复',
+        keywords: 'import restore daoru huifu',
+        run: () => document.getElementById(IMPORT_INPUT_ID)?.click(),
+      },
+      {
+        id: 'open-settings',
+        title: '设置',
+        keywords: 'settings shezhi',
+        run: () => setSettingsOpen(true),
+      },
+      {
+        id: 'shortcut-help',
+        title: '快捷键帮助',
+        hint: 'Ctrl+/',
+        keywords: 'shortcut keyboard bangzhu',
+        run: () => setHelpOpen(true),
+      },
+    ];
+    if (activeSession) {
+      // 会话切换类动作（模糊搜索会话标题）
+      for (const s of sorted) {
+        if (s.id === activeSession.id) continue;
+        list.push({
+          id: `switch-${s.id}`,
+          title: `切换到会话：${s.title}`,
+          keywords: 'switch qiehuan session',
+          run: () => setActiveSession(s.id),
+        });
+      }
+    }
+    return list;
+  }, [
+    activeSession,
+    sorted,
+    addOutputBlock,
+    addBreakpoint,
+    toggleAIDrawer,
+    createSession,
+    setActiveSession,
+    setSettingsOpen,
+    setHelpOpen,
+    setExportMarkdownOpen,
+    setExportBackupOpen,
+  ]);
 
   return (
     <div className="flex h-screen flex-col bg-bg">
@@ -56,6 +162,8 @@ export default function App() {
       </div>
 
       <SettingsDialog open={settingsOpen} onClose={() => setSettingsOpen(false)} />
+      <ShortcutHelpDialog open={helpOpen} onClose={() => setHelpOpen(false)} />
+      <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} actions={actions} />
     </div>
   );
 }

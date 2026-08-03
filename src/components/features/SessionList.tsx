@@ -6,12 +6,15 @@ import { useState } from 'react';
 import { MoreHorizontal } from 'lucide-react';
 import type { Session } from '../../types';
 import { selectSortedSessions, useSessionsStore } from '../../stores/sessions';
+import { useTagsStore } from '../../stores/tags';
 import { formatRelativeTime } from '../../lib/time';
+import { downloadTextFile, sanitizeFilename, sessionToMarkdown } from '../../lib/export';
 import { cn } from '../../lib/cn';
 import { IconButton } from '../ui/IconButton';
 import { Popover } from '../ui/Popover';
 import { ConfirmDialog } from '../ui/ConfirmDialog';
 import { Input } from '../ui/Input';
+import { useToast } from '../ui/Toast';
 
 interface SessionListProps {
   query: string;
@@ -60,9 +63,17 @@ interface SessionItemProps {
 function SessionItem({ session, active, onSelect, onDrop, dragDisabled }: SessionItemProps) {
   const renameSession = useSessionsStore((s) => s.renameSession);
   const deleteSession = useSessionsStore((s) => s.deleteSession);
+  const tags = useTagsStore((s) => s.tags);
+  const toast = useToast();
   const [renaming, setRenaming] = useState(false);
   const [draftTitle, setDraftTitle] = useState(session.title);
   const [confirmDelete, setConfirmDelete] = useState(false);
+
+  const exportMarkdown = () => {
+    const md = sessionToMarkdown(session, tags, { includeAIThread: false });
+    downloadTextFile(`${sanitizeFilename(session.title)}.md`, md, 'text/markdown');
+    toast('已导出 Markdown（如需附 AI 讨论记录请走顶栏导出）', 'success');
+  };
 
   const commitRename = () => {
     const title = draftTitle.trim();
@@ -141,6 +152,15 @@ function SessionItem({ session, active, onSelect, onDrop, dragDisabled }: Sessio
                       }}
                     >
                       重命名
+                    </button>
+                    <button
+                      className="w-full rounded-sm px-2 py-1.5 text-left text-sm hover:bg-bg-muted"
+                      onClick={() => {
+                        exportMarkdown();
+                        close();
+                      }}
+                    >
+                      导出 Markdown
                     </button>
                     <button
                       className="w-full rounded-sm px-2 py-1.5 text-left text-sm text-danger hover:bg-bg-muted"
