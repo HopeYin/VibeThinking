@@ -52,12 +52,18 @@ export function ImportButton() {
       includeApiKey: true, // 自救备份必须完整，否则 Key 会丢
       appVersion: APP_VERSION,
     });
-    downloadTextFile(backupFilename('vibethinking-before-import'), JSON.stringify(current, null, 2));
+    downloadTextFile(
+      backupFilename('vibethinking-before-import'),
+      JSON.stringify(current, null, 2),
+    );
 
     // 整体替换
     useSessionsStore
       .getState()
-      .replaceAll(pending.sessions, [...pending.sessions].sort((a, b) => a.sortOrder - b.sortOrder)[0]?.id ?? null);
+      .replaceAll(
+        pending.sessions,
+        [...pending.sessions].sort((a, b) => a.sortOrder - b.sortOrder)[0]?.id ?? null,
+      );
     useTagsStore.getState().replaceAll(pending.tags);
     useSettingsStore.getState().replaceAll(pending.settings);
 
@@ -111,8 +117,8 @@ export function ImportButton() {
               {pending.includesApiKey ? '（含 API Key）' : ''}。
             </p>
             <p className="text-13 text-warning">
-              恢复将整体替换当前全部数据。点击确认前会自动下载一份当前数据的完整备份
-              （含 API Key）到本机，用于反悔。
+              恢复将整体替换当前全部数据。点击确认前会自动下载一份当前数据的完整备份 （含 API
+              Key）到本机，用于反悔。
             </p>
           </div>
         )}

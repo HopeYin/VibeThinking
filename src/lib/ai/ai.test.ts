@@ -113,7 +113,9 @@ describe('OpenAIResponsesAdapter', () => {
     vi.stubGlobal(
       'fetch',
       vi.fn(async () =>
-        sseResponse(['data: {"type":"response.failed","response":{"error":{"message":"boom"}}}\n\n']),
+        sseResponse([
+          'data: {"type":"response.failed","response":{"error":{"message":"boom"}}}\n\n',
+        ]),
       ),
     );
     const err = await collect(openAIResponsesAdapter.chatStream(cfg, req)).catch((e) => e);

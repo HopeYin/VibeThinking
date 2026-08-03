@@ -13,10 +13,7 @@ function pickModel(cfg: ProviderConfig): string {
   return cfg.defaultModel || cfg.models[0] || '';
 }
 
-async function* chatStream(
-  cfg: ProviderConfig,
-  req: ChatRequest,
-): AsyncGenerator<ChatChunk> {
+async function* chatStream(cfg: ProviderConfig, req: ChatRequest): AsyncGenerator<ChatChunk> {
   let res: Response;
   try {
     res = await fetch(joinUrl(cfg.baseUrl, '/chat/completions'), {

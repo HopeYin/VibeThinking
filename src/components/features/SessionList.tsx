@@ -29,7 +29,9 @@ export function SessionList({ query }: SessionListProps) {
   const moveSession = useSessionsStore((s) => s.moveSession);
 
   const sorted = selectSortedSessions(sessions);
-  const filtered = query ? sorted.filter((s) => s.title.toLowerCase().includes(query.toLowerCase())) : sorted;
+  const filtered = query
+    ? sorted.filter((s) => s.title.toLowerCase().includes(query.toLowerCase()))
+    : sorted;
 
   return (
     <div className="flex-1 overflow-y-auto px-2 pb-3">

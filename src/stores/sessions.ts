@@ -259,7 +259,10 @@ export const useSessionsStore = create<SessionsState>()(
         set((st) => ({
           sessions: patchSession(st.sessions, sessionId, (s) => ({
             ...s,
-            reports: [...s.reports, { id: nanoid(), content, createdAt: Date.now() } as ReviewReport],
+            reports: [
+              ...s.reports,
+              { id: nanoid(), content, createdAt: Date.now() } as ReviewReport,
+            ],
           })),
         })),
 

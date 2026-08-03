@@ -26,10 +26,7 @@ function buildHeaders(cfg: ProviderConfig): Record<string, string> {
   };
 }
 
-async function* chatStream(
-  cfg: ProviderConfig,
-  req: ChatRequest,
-): AsyncGenerator<ChatChunk> {
+async function* chatStream(cfg: ProviderConfig, req: ChatRequest): AsyncGenerator<ChatChunk> {
   const systemText = req.messages
     .filter((m) => m.role === 'system')
     .map((m) => m.content)

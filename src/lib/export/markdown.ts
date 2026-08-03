@@ -44,7 +44,12 @@ export function sessionToMarkdown(
         .map(tagName)
         .filter((n): n is string => Boolean(n))
         .join('、');
-      lines.push(`**${fmtTime(block.createdAt)}** ｜ 标签：${names || '无'}`, '', block.content, '');
+      lines.push(
+        `**${fmtTime(block.createdAt)}** ｜ 标签：${names || '无'}`,
+        '',
+        block.content,
+        '',
+      );
     } else {
       lines.push(`**▍断点** ${block.note || ''}`.trimEnd(), '');
     }
@@ -53,7 +58,12 @@ export function sessionToMarkdown(
   if (opts.includeAIThread && session.aiThread.length > 0) {
     lines.push('---', '', '## AI 讨论记录', '');
     for (const msg of session.aiThread) {
-      lines.push(`**${msg.role === 'user' ? '用户' : 'AI'} · ${fmtTime(msg.createdAt)}**`, '', msg.content, '');
+      lines.push(
+        `**${msg.role === 'user' ? '用户' : 'AI'} · ${fmtTime(msg.createdAt)}**`,
+        '',
+        msg.content,
+        '',
+      );
     }
   }
 

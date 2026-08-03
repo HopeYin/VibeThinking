@@ -51,8 +51,7 @@ function TagManageSection() {
 
   const usageCount = (tagId: string) =>
     sessions.reduce(
-      (n, s) =>
-        n + s.blocks.filter((b) => b.kind === 'output' && b.tagIds.includes(tagId)).length,
+      (n, s) => n + s.blocks.filter((b) => b.kind === 'output' && b.tagIds.includes(tagId)).length,
       0,
     );
 

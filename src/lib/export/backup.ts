@@ -46,9 +46,7 @@ export function buildBackup(input: {
   };
 }
 
-export type ParseBackupResult =
-  | { ok: true; data: BackupFile }
-  | { ok: false; error: string };
+export type ParseBackupResult = { ok: true; data: BackupFile } | { ok: false; error: string };
 
 export function parseBackup(text: string): ParseBackupResult {
   let raw: unknown;

@@ -17,10 +17,7 @@ interface ResponsesEvent {
   error?: { message?: string };
 }
 
-async function* chatStream(
-  cfg: ProviderConfig,
-  req: ChatRequest,
-): AsyncGenerator<ChatChunk> {
+async function* chatStream(cfg: ProviderConfig, req: ChatRequest): AsyncGenerator<ChatChunk> {
   let res: Response;
   try {
     res = await fetch(joinUrl(cfg.baseUrl, '/responses'), {

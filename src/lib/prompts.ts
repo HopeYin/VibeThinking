@@ -44,7 +44,11 @@ export interface ChainContext {
   breakpointCount: number;
 }
 
-export function buildChainContext(session: Session, tags: Tag[], olderSummary?: string): ChainContext {
+export function buildChainContext(
+  session: Session,
+  tags: Tag[],
+  olderSummary?: string,
+): ChainContext {
   const serialized = serializeThoughtChain(session.blocks, tags);
   let body = serialized;
   let truncated = false;
@@ -61,8 +65,7 @@ export function buildChainContext(session: Session, tags: Tag[], olderSummary?: 
       const kept = older.slice(0, OLDER_KEEP_BLOCKS);
       const omitted = Math.max(0, older.length - kept.length);
       olderText =
-        serializeThoughtChain(kept, tags) +
-        (omitted > 0 ? `\n……（中间省略 ${omitted} 个块）` : '');
+        serializeThoughtChain(kept, tags) + (omitted > 0 ? `\n……（中间省略 ${omitted} 个块）` : '');
     }
 
     body = [

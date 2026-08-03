@@ -36,7 +36,11 @@ export async function runSummarize(sessionId: string, toast: ToastFn): Promise<v
   aiTasks.setSummaryFor(sessionId);
   try {
     const tags = useTagsStore.getState().tags;
-    const text = await generateText(active.provider, active.model, buildSummaryMessages(session, tags));
+    const text = await generateText(
+      active.provider,
+      active.model,
+      buildSummaryMessages(session, tags),
+    );
     useSessionsStore
       .getState()
       .setSummary(sessionId, { content: text.trim(), createdAt: Date.now() });
@@ -67,7 +71,11 @@ export async function runReview(sessionId: string, toast: ToastFn): Promise<void
   aiTasks.setReviewFor(sessionId);
   try {
     const tags = useTagsStore.getState().tags;
-    const text = await generateText(active.provider, active.model, buildReviewMessages(session, tags));
+    const text = await generateText(
+      active.provider,
+      active.model,
+      buildReviewMessages(session, tags),
+    );
     useSessionsStore.getState().addReport(sessionId, text.trim());
     toast('复盘报告已生成', 'success');
   } catch (e) {

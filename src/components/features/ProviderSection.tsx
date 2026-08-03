@@ -260,7 +260,11 @@ function ProviderEditDialog({ initial, onClose }: ProviderEditDialogProps) {
         <div className="grid grid-cols-2 gap-2">
           <label className="block">
             <span className="mb-1 block text-13 text-text-secondary">名称</span>
-            <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="如 DeepSeek" />
+            <Input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="如 DeepSeek"
+            />
           </label>
           <label className="block">
             <span className="mb-1 block text-13 text-text-secondary">API 格式</span>
@@ -300,7 +304,10 @@ function ProviderEditDialog({ initial, onClose }: ProviderEditDialogProps) {
               className="pr-9 font-mono text-13"
             />
             <span className="absolute right-1 top-1/2 -translate-y-1/2">
-              <IconButton label={showKey ? '隐藏 Key' : '显示 Key'} onClick={() => setShowKey((v) => !v)}>
+              <IconButton
+                label={showKey ? '隐藏 Key' : '显示 Key'}
+                onClick={() => setShowKey((v) => !v)}
+              >
                 {showKey ? <EyeOff size={14} /> : <Eye size={14} />}
               </IconButton>
             </span>
@@ -341,8 +348,8 @@ function ProviderEditDialog({ initial, onClose }: ProviderEditDialogProps) {
         )}
 
         <p className="text-13 text-text-tertiary">
-          如遇浏览器跨域（CORS）报错，可在 vite.config.ts 启用 proxy 示例，并把这里的
-          Base URL 改为本地代理路径（详见 README）。
+          如遇浏览器跨域（CORS）报错，可在 vite.config.ts 启用 proxy 示例，并把这里的 Base URL
+          改为本地代理路径（详见 README）。
         </p>
       </div>
     </Dialog>

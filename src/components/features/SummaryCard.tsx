@@ -24,7 +24,9 @@ export function SummaryCard({ session }: { session: Session }) {
         <Sparkles size={12} className="text-accent" />
         <span className="font-medium">会话总结</span>
         {session.summary && (
-          <span className="text-text-tertiary">{formatRelativeTime(session.summary.createdAt)}</span>
+          <span className="text-text-tertiary">
+            {formatRelativeTime(session.summary.createdAt)}
+          </span>
         )}
         <span className="flex-1" />
         {session.summary && (

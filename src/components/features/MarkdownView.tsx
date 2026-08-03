@@ -41,7 +41,9 @@ export function MarkdownView({ content }: { content: string }) {
             className?.includes('language-') ? (
               <code className={className}>{children}</code>
             ) : (
-              <code className="rounded-sm bg-bg-muted px-1 py-0.5 font-mono text-13">{children}</code>
+              <code className="rounded-sm bg-bg-muted px-1 py-0.5 font-mono text-13">
+                {children}
+              </code>
             ),
           a: ({ href, children }) => (
             <a href={href} target="_blank" rel="noreferrer" className="text-accent underline">

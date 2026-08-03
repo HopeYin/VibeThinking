@@ -81,18 +81,36 @@ describe('sessionToMarkdown', () => {
 
 describe('全局备份', () => {
   it('默认脱敏 API Key', () => {
-    const backup = buildBackup({ sessions: [session], tags, settings, includeApiKey: false, appVersion: '0.1.0' });
+    const backup = buildBackup({
+      sessions: [session],
+      tags,
+      settings,
+      includeApiKey: false,
+      appVersion: '0.1.0',
+    });
     expect(backup.settings.providers[0]?.apiKey).toBe('');
     expect(backup.includesApiKey).toBe(false);
   });
 
   it('显式勾选时保留 API Key', () => {
-    const backup = buildBackup({ sessions: [session], tags, settings, includeApiKey: true, appVersion: '0.1.0' });
+    const backup = buildBackup({
+      sessions: [session],
+      tags,
+      settings,
+      includeApiKey: true,
+      appVersion: '0.1.0',
+    });
     expect(backup.settings.providers[0]?.apiKey).toBe('sk-secret');
   });
 
   it('导出 → 解析无损往返', () => {
-    const backup = buildBackup({ sessions: [session], tags, settings, includeApiKey: false, appVersion: '0.1.0' });
+    const backup = buildBackup({
+      sessions: [session],
+      tags,
+      settings,
+      includeApiKey: false,
+      appVersion: '0.1.0',
+    });
     const parsed = parseBackup(JSON.stringify(backup));
     expect(parsed.ok).toBe(true);
     if (parsed.ok) {
@@ -107,7 +125,13 @@ describe('全局备份', () => {
   });
 
   it('拒绝版本不兼容的备份', () => {
-    const backup = buildBackup({ sessions: [], tags: [], settings, includeApiKey: false, appVersion: '0.1.0' });
+    const backup = buildBackup({
+      sessions: [],
+      tags: [],
+      settings,
+      includeApiKey: false,
+      appVersion: '0.1.0',
+    });
     const wrong = { ...backup, schemaVersion: 999 };
     const parsed = parseBackup(JSON.stringify(wrong));
     expect(parsed.ok).toBe(false);

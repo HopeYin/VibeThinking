@@ -8,9 +8,7 @@
  *
  * 为什么手写而不引 SDK：PRD 7.5 要求零 SDK 依赖，SSE 协议本身简单。
  */
-export async function* iterateSSEData(
-  stream: ReadableStream<Uint8Array>,
-): AsyncGenerator<string> {
+export async function* iterateSSEData(stream: ReadableStream<Uint8Array>): AsyncGenerator<string> {
   const reader = stream.getReader();
   const decoder = new TextDecoder();
   let buffer = '';

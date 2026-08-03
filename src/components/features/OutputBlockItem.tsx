@@ -98,7 +98,10 @@ export function OutputBlockItem({ block }: OutputBlockItemProps) {
   };
 
   const suggestionRow = suggestions.length > 0 && (
-    <div className="mt-1.5 flex flex-wrap items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
+    <div
+      className="mt-1.5 flex flex-wrap items-center gap-1.5"
+      onClick={(e) => e.stopPropagation()}
+    >
       <span className="text-13 text-text-tertiary">AI 建议：</span>
       {suggestions.map((t) => (
         <Chip key={t.id} color={t.color} dashed title="点击采纳" onClick={() => adoptSuggestion(t)}>
@@ -190,10 +193,7 @@ export function OutputBlockItem({ block }: OutputBlockItemProps) {
             {t.name}
           </Chip>
         ))}
-        <span
-          onClick={(e) => e.stopPropagation()}
-          className="inline-flex"
-        >
+        <span onClick={(e) => e.stopPropagation()} className="inline-flex">
           <Popover
             placement="top"
             trigger={

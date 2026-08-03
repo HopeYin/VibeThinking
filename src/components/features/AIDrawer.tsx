@@ -24,7 +24,11 @@ import { useSettingsStore } from '../../stores/settings';
 import { useTagsStore } from '../../stores/tags';
 import { useUIStore } from '../../stores/ui';
 import { streamChat, normalizeException } from '../../lib/ai';
-import { buildChainContext, buildDiscussionMessages, DEFAULT_INSTRUCTION_PROMPT } from '../../lib/prompts';
+import {
+  buildChainContext,
+  buildDiscussionMessages,
+  DEFAULT_INSTRUCTION_PROMPT,
+} from '../../lib/prompts';
 import { cn } from '../../lib/cn';
 import { Button } from '../ui/Button';
 import { Textarea } from '../ui/Textarea';
@@ -142,8 +146,20 @@ function DrawerBody({ session }: { session: Session }) {
     if (!text || streaming || !configured) return;
     setInput('');
     const now = Date.now();
-    const userMsg: AIMessage = { id: nanoid(), role: 'user', content: text, status: 'done', createdAt: now };
-    const aiMsg: AIMessage = { id: nanoid(), role: 'assistant', content: '', status: 'streaming', createdAt: now };
+    const userMsg: AIMessage = {
+      id: nanoid(),
+      role: 'user',
+      content: text,
+      status: 'done',
+      createdAt: now,
+    };
+    const aiMsg: AIMessage = {
+      id: nanoid(),
+      role: 'assistant',
+      content: '',
+      status: 'streaming',
+      createdAt: now,
+    };
     addAIMessage(session.id, userMsg);
     addAIMessage(session.id, aiMsg);
     void runStream(aiMsg.id);
@@ -158,7 +174,11 @@ function DrawerBody({ session }: { session: Session }) {
     // 重试上一条：删掉最近一条失败/停止的 assistant 消息，重新生成
     const thread = session.aiThread;
     const last = thread[thread.length - 1];
-    if (last && last.role === 'assistant' && (last.status === 'error' || last.status === 'stopped')) {
+    if (
+      last &&
+      last.role === 'assistant' &&
+      (last.status === 'error' || last.status === 'stopped')
+    ) {
       removeAIMessage(session.id, last.id);
       const aiMsg: AIMessage = {
         id: nanoid(),
@@ -250,7 +270,12 @@ function DrawerBody({ session }: { session: Session }) {
               <Square size={16} />
             </IconButton>
           ) : (
-            <IconButton label="发送" onClick={send} disabled={!input.trim()} className="mb-0.5 text-accent">
+            <IconButton
+              label="发送"
+              onClick={send}
+              disabled={!input.trim()}
+              className="mb-0.5 text-accent"
+            >
               <SendHorizonal size={16} />
             </IconButton>
           )}

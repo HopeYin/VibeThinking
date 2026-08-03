@@ -53,14 +53,14 @@ VibeThinking 是一个**记录和梳理思维过程的轻量 Web 工具**。核�
 
 ### 2.1 目标（本期必须达成）
 
-| # | 目标 | 验收方式 |
-|---|------|---------|
-| G1 | 核心思维记录链路完整：会话 / 输出块 / 断点 / 标签 | 手动走查通过 |
-| G2 | AI 讨论可用：多模型、流式、可停止/重试/清空 | 接入真实 API Key 实测 |
-| G3 | AI 增强三件套：自动标签建议、会话总结、思维复盘报告 | 实测生成质量可用 |
-| G4 | 明亮简洁的全新设计（类 Notion/Linear 气质），设计 token 化 | 设计规范章节落地为代码 |
-| G5 | 数据安全：localStorage 持久化 + 全局 JSON 备份/恢复 | 刷新、导出入库实测 |
-| G6 | 本地可跑、可构建静态产物，具备随时部署到静态托管的能力 | `npm run build` 通过 |
+| #   | 目标                                                       | 验收方式               |
+| --- | ---------------------------------------------------------- | ---------------------- |
+| G1  | 核心思维记录链路完整：会话 / 输出块 / 断点 / 标签          | 手动走查通过           |
+| G2  | AI 讨论可用：多模型、流式、可停止/重试/清空                | 接入真实 API Key 实测  |
+| G3  | AI 增强三件套：自动标签建议、会话总结、思维复盘报告        | 实测生成质量可用       |
+| G4  | 明亮简洁的全新设计（类 Notion/Linear 气质），设计 token 化 | 设计规范章节落地为代码 |
+| G5  | 数据安全：localStorage 持久化 + 全局 JSON 备份/恢复        | 刷新、导出入库实测     |
+| G6  | 本地可跑、可构建静态产物，具备随时部署到静态托管的能力     | `npm run build` 通过   |
 
 ### 2.2 非目标（本期明确不做）
 
@@ -90,21 +90,21 @@ VibeThinking 是一个**记录和梳理思维过程的轻量 Web 工具**。核�
 
 ### 4.1 功能总览
 
-| 状态 | 功能 | 说明 |
-|------|------|------|
-| 保留+重设计 | 会话管理 | 创建/切换/删除/重命名/搜索/拖拽排序 |
-| 保留+重设计 | 输出块 | 自适应高度编辑、编辑态/阅读态切换 |
-| 保留+重设计 | 思维方法标签 | 预设 + 用户自定义，支持增删改与颜色 |
-| 保留+重设计 | 断点 | 阶段划分 + 备注 |
-| 保留+重设计 | AI 讨论 | 流式、停止、重试、清空、Markdown 渲染 |
-| 保留+重设计 | Markdown 导出 | 单会话导出 `.md` |
-| 保留+重设计 | 全局备份 | JSON 导出/导入恢复 |
-| 保留+重设计 | 快捷键 | 固定快捷键 + 帮助面板 |
-| **替换** | ~~悬浮球~~ → **命令面板** | 见 4.2 决策说明 |
-| **新增** | 多模型 Provider 管理 | 预设 DeepSeek/Kimi + 自定义，三种 API 格式 |
-| **新增** | AI 自动标签建议 | 对输出块建议标签，一键采纳 |
-| **新增** | AI 会话总结 | 对整个会话或断点间阶段生成摘要 |
-| **新增** | AI 思维复盘报告 | 结构化复盘，可再生成、可导出 |
+| 状态        | 功能                      | 说明                                       |
+| ----------- | ------------------------- | ------------------------------------------ |
+| 保留+重设计 | 会话管理                  | 创建/切换/删除/重命名/搜索/拖拽排序        |
+| 保留+重设计 | 输出块                    | 自适应高度编辑、编辑态/阅读态切换          |
+| 保留+重设计 | 思维方法标签              | 预设 + 用户自定义，支持增删改与颜色        |
+| 保留+重设计 | 断点                      | 阶段划分 + 备注                            |
+| 保留+重设计 | AI 讨论                   | 流式、停止、重试、清空、Markdown 渲染      |
+| 保留+重设计 | Markdown 导出             | 单会话导出 `.md`                           |
+| 保留+重设计 | 全局备份                  | JSON 导出/导入恢复                         |
+| 保留+重设计 | 快捷键                    | 固定快捷键 + 帮助面板                      |
+| **替换**    | ~~悬浮球~~ → **命令面板** | 见 4.2 决策说明                            |
+| **新增**    | 多模型 Provider 管理      | 预设 DeepSeek/Kimi + 自定义，三种 API 格式 |
+| **新增**    | AI 自动标签建议           | 对输出块建议标签，一键采纳                 |
+| **新增**    | AI 会话总结               | 对整个会话或断点间阶段生成摘要             |
+| **新增**    | AI 思维复盘报告           | 结构化复盘，可再生成、可导出               |
 
 ### 4.2 关键决策与理由（agent 推断细节时以此为准）
 
@@ -126,12 +126,14 @@ VibeThinking 是一个**记录和梳理思维过程的轻量 Web 工具**。核�
 ### 4.3 功能详细规格
 
 #### F1 会话管理
+
 - 左侧栏：会话列表，按用户拖拽排序持久化；顶部搜索框按标题过滤。
 - 新建会话：默认标题 `未命名会话 + 日期`，进入后可重命名（双击标题或命令面板）。
 - 删除会话：二次确认（对话框），删除不可恢复，提示可先导出备份。
 - 切换会话：主区切换，记住每个会话的滚动位置（尽力而为，非硬性要求）。
 
 #### F2 输出块
+
 - 主区为按时间正序的「思维流」，输出块是基本单元。
 - 阅读态：显示内容 + 标签 chips + 相对时间（如「3 分钟前」）；点击进入编辑态。
 - 编辑态：自适应高度 textarea，实时保存（防抖 ~500ms），`Esc` 或点击外部回到阅读态。
@@ -139,6 +141,7 @@ VibeThinking 是一个**记录和梳理思维过程的轻量 Web 工具**。核�
 - 块操作（hover 浮现）：编辑标签、AI 建议标签、删除（二次确认）。
 
 #### F3 思维方法标签
+
 - 预设标签（首次启动写入，可改可删）：第一性原理、逆向思考、类比、系统思考、概率思维、机会成本、二八法则、反思。
 - 标签管理入口：设置页 + 输出块的标签编辑弹层内「新建标签」。
 - 标签属性：名称、颜色（从预设 8 色板选）。
@@ -146,12 +149,14 @@ VibeThinking 是一个**记录和梳理思维过程的轻量 Web 工具**。核�
 - 标签删除：若被块引用，提示「N 个输出块正在使用」，确认后从所有块移除。
 
 #### F4 断点
+
 - 断点是思维流中的阶段分隔符：一条横线 + 可编辑备注（如「第一阶段：问题定义完毕」）。
 - 插入位置：思维流尾部（通过工具条/命令面板/快捷键）。
 - 断点可编辑备注、可删除。
 - 断点在 AI 上下文中的语义：「以下是新一个思考阶段」。
 
 #### F5 AI 讨论
+
 - 打开方式：右侧抽屉（宽约 400px），不离开思维流。
 - 对话区：用户/AI 气泡，AI 消息渲染 Markdown（代码块带复制按钮）。
 - 流式输出 + 「停止生成」按钮；失败可「重试上一条」；可「清空对话」（二次确认，仅清对话不清思维链）。
@@ -159,6 +164,7 @@ VibeThinking 是一个**记录和梳理思维过程的轻量 Web 工具**。核�
 - 上下文指示：输入框旁常驻提示「AI 已读取本会话 N 个输出块 / M 个断点」，让上下文透明可见。
 
 #### F6 多模型 Provider 管理（新增）
+
 - 设置页「模型服务」分区：Provider 列表 + 添加/编辑/删除。
 - 每个 Provider：名称、API 格式（三选一）、Base URL、API Key（密码框，显示/隐藏切换）、模型列表（逗号分隔手填）、默认模型。
 - 预设模板（一键填充 Base URL 与格式，Key 留空）：
@@ -169,15 +175,18 @@ VibeThinking 是一个**记录和梳理思维过程的轻量 Web 工具**。核�
 - 「测试连接」按钮：发一条极短消息验证 Key/格式可用，返回延迟与结果。
 
 #### F7 AI 自动标签建议（新增）
+
 - 输出块 hover 操作「AI 建议标签」→ 调当前模型 → 返回 1~3 个标签建议（仅限现有标签库中选择，prompt 约束）→ 以虚线 chip 形式展示 → 点击采纳 / 忽略。
 - 建议不自动写入，必须用户确认（思维资产的所有权在人）。
 
 #### F8 AI 会话总结（新增）
+
 - 会话级操作（命令面板 / 会话菜单）：「总结本会话」。
 - 生成结果以一张特殊卡片插入 AI 讨论抽屉顶部（同时可一键复制 Markdown），不落进思维流。
 - 总结 prompt 要求：按断点分段概括 + 一段总览，300 字内。
 
 #### F9 AI 思维复盘报告（新增）
+
 - 会话级操作：「生成复盘报告」。
 - 报告结构（prompt 中固定要求）：
   1. **思维轨迹**：各阶段（按断点）主题一句话概括；
@@ -188,14 +197,17 @@ VibeThinking 是一个**记录和梳理思维过程的轻量 Web 工具**。核�
 - 报告存于会话（可查看历史报告、重新生成），支持导出单篇为 `.md`。
 
 #### F10 Markdown 导出
+
 - 导出当前会话为 `{会话标题}.md`：标题、创建时间、按时间序的输出块（含标签）、断点（含备注）、末尾附 AI 讨论记录（可选勾选）。
 - 复盘报告单独可导出。
 
 #### F11 全局备份 / 恢复
+
 - 顶栏「导出」：全部会话 + 标签 + 设置（**默认不含 API Key**，提供显式勾选）为一个 JSON 文件下载，文件名含日期。
 - 「导入」：选择 JSON → 校验 schema 版本 → 预览将恢复的会话数量 → 确认后**整体替换**当前数据（操作前强制先自动下载一份当前数据备份）。
 
 #### F12 快捷键与命令面板
+
 - 固定快捷键（焦点在输入框时不触发，除命令面板）：
   - `Ctrl/⌘+K`：命令面板
   - `Alt+N`：新输出块
@@ -226,6 +238,7 @@ VibeThinking 是一个**记录和梳理思维过程的轻量 Web 工具**。核�
 - 窄屏（<1024px）仅需不破版：侧栏抽屉化，AI 抽屉全屏覆盖。
 
 ### 5.2 空状态
+
 - 无会话：主区居中插画位（先用纯文案）+「新建会话」按钮。
 - 会话无内容：思维流中央提示「写下第一个想法（Alt+N）」。
 - AI 未配置：AI 抽屉内引导跳转设置页配置 Provider。
@@ -240,21 +253,21 @@ VibeThinking 是一个**记录和梳理思维过程的轻量 Web 工具**。核�
 
 以 CSS 变量定义，全部通过 Tailwind v4 的 `@theme` 落地（`src/styles/theme.css`）：
 
-| Token | 值 | 用途 |
-|-------|-----|------|
-| `--color-bg` | `#FFFFFF` | 页面背景 |
-| `--color-bg-subtle` | `#F7F7F5` | 侧栏、卡片底 |
-| `--color-bg-muted` | `#EFEFED` | hover、分隔区 |
-| `--color-border` | `#E5E5E2` | 边框、分隔线 |
-| `--color-text` | `#1F2328` | 主文字 |
-| `--color-text-secondary` | `#6B7280` | 次要文字 |
-| `--color-text-tertiary` | `#9CA3AF` | 占位、时间戳 |
-| `--color-accent` | `#5E6AD2` | 品牌强调（按钮、聚焦环、激活态） |
-| `--color-accent-hover` | `#4F5BC0` | 强调 hover |
-| `--color-accent-subtle` | `#EEEFF9` | 强调浅底（选中态背景） |
-| `--color-success` | `#16A34A` | 成功 |
-| `--color-warning` | `#D97706` | 警告 |
-| `--color-danger` | `#DC2626` | 危险/删除 |
+| Token                    | 值        | 用途                             |
+| ------------------------ | --------- | -------------------------------- |
+| `--color-bg`             | `#FFFFFF` | 页面背景                         |
+| `--color-bg-subtle`      | `#F7F7F5` | 侧栏、卡片底                     |
+| `--color-bg-muted`       | `#EFEFED` | hover、分隔区                    |
+| `--color-border`         | `#E5E5E2` | 边框、分隔线                     |
+| `--color-text`           | `#1F2328` | 主文字                           |
+| `--color-text-secondary` | `#6B7280` | 次要文字                         |
+| `--color-text-tertiary`  | `#9CA3AF` | 占位、时间戳                     |
+| `--color-accent`         | `#5E6AD2` | 品牌强调（按钮、聚焦环、激活态） |
+| `--color-accent-hover`   | `#4F5BC0` | 强调 hover                       |
+| `--color-accent-subtle`  | `#EEEFF9` | 强调浅底（选中态背景）           |
+| `--color-success`        | `#16A34A` | 成功                             |
+| `--color-warning`        | `#D97706` | 警告                             |
+| `--color-danger`         | `#DC2626` | 危险/删除                        |
 
 **暗色预留**：所有颜色一律通过语义 token 引用（`bg-bg` / `text-text-secondary` 等），**禁止在组件里写死色值**。未来加暗色只需新增 `[data-theme="dark"]` 下的一套变量覆盖。
 
@@ -283,17 +296,17 @@ VibeThinking 是一个**记录和梳理思维过程的轻量 Web 工具**。核�
 
 ### 7.1 技术选型（选定，勿擅自更换）
 
-| 层 | 选择 | 理由 |
-|----|------|------|
-| 框架 | **React 19 + TypeScript（strict）** | 作者技能栈延续，生态最大 |
-| 构建 | **Vite**（最新稳定版） | 快、标准、部署产物为纯静态 |
-| 样式 | **Tailwind CSS v4**（`@tailwindcss/vite`，CSS-first `@theme`） | token 体系即代码，资产可移植 |
-| 状态 | **Zustand**（+ `persist` 中间件） | 轻量、与 localStorage 持久化天然契合 |
-| 图标 | **lucide-react** | 风格克制，契合设计方向 |
-| ID | **nanoid** | 小、标准 |
-| Markdown 渲染 | **react-markdown + remark-gfm** | 仅用于 AI 消息与报告展示 |
-| 测试 | **Vitest + @testing-library/react** | 与 Vite 同生态 |
-| 质量 | **ESLint + Prettier** | 提交前可手动跑 `npm run lint` |
+| 层            | 选择                                                           | 理由                                 |
+| ------------- | -------------------------------------------------------------- | ------------------------------------ |
+| 框架          | **React 19 + TypeScript（strict）**                            | 作者技能栈延续，生态最大             |
+| 构建          | **Vite**（最新稳定版）                                         | 快、标准、部署产物为纯静态           |
+| 样式          | **Tailwind CSS v4**（`@tailwindcss/vite`，CSS-first `@theme`） | token 体系即代码，资产可移植         |
+| 状态          | **Zustand**（+ `persist` 中间件）                              | 轻量、与 localStorage 持久化天然契合 |
+| 图标          | **lucide-react**                                               | 风格克制，契合设计方向               |
+| ID            | **nanoid**                                                     | 小、标准                             |
+| Markdown 渲染 | **react-markdown + remark-gfm**                                | 仅用于 AI 消息与报告展示             |
+| 测试          | **Vitest + @testing-library/react**                            | 与 Vite 同生态                       |
+| 质量          | **ESLint + Prettier**                                          | 提交前可手动跑 `npm run lint`        |
 
 **不引入**：路由库（单视图应用，无多页面）、富文本编辑器、UI 组件库（组件自研即资产）、状态管理重型方案（Redux 等）。
 
@@ -325,10 +338,10 @@ interface Session {
   id: string;
   title: string;
   sortOrder: number;
-  blocks: Block[];            // 按时间正序
-  aiThread: AIMessage[];      // AI 讨论记录
-  instructionPrompt: string;  // 会话级指令 prompt
-  reports: ReviewReport[];    // 复盘报告历史
+  blocks: Block[]; // 按时间正序
+  aiThread: AIMessage[]; // AI 讨论记录
+  instructionPrompt: string; // 会话级指令 prompt
+  reports: ReviewReport[]; // 复盘报告历史
   createdAt: number;
   updatedAt: number;
 }
@@ -347,14 +360,14 @@ interface OutputBlock {
 interface BreakpointBlock {
   id: string;
   kind: 'breakpoint';
-  note: string;               // 阶段备注，可为空
+  note: string; // 阶段备注，可为空
   createdAt: number;
 }
 
 interface Tag {
   id: string;
   name: string;
-  color: TagColor;            // 8 色板之一
+  color: TagColor; // 8 色板之一
   isPreset: boolean;
 }
 
@@ -369,7 +382,7 @@ interface AIMessage {
 
 interface ReviewReport {
   id: string;
-  content: string;            // Markdown
+  content: string; // Markdown
   createdAt: number;
 }
 
@@ -381,7 +394,7 @@ interface ProviderConfig {
   name: string;
   apiFormat: ApiFormat;
   baseUrl: string;
-  apiKey: string;             // 仅存 localStorage，见 D3
+  apiKey: string; // 仅存 localStorage，见 D3
   models: string[];
   defaultModel: string;
 }
@@ -412,15 +425,20 @@ interface Settings {
 **统一接口**——三种 API 格式对上表现为同一抽象：
 
 ```ts
-interface ChatMessage { role: 'system' | 'user' | 'assistant'; content: string; }
+interface ChatMessage {
+  role: 'system' | 'user' | 'assistant';
+  content: string;
+}
 
 interface ChatRequest {
   messages: ChatMessage[];
   model: string;
-  signal: AbortSignal;        // 停止生成 = abort
+  signal: AbortSignal; // 停止生成 = abort
 }
 
-interface ChatChunk { text: string; }   // 增量文本
+interface ChatChunk {
+  text: string;
+} // 增量文本
 
 interface ProviderAdapter {
   readonly format: ApiFormat;
@@ -484,29 +502,35 @@ interface ProviderAdapter {
 > 每个里程碑的「验收」即对该里程碑的 Definition of Done，全部通过才进入下一个。
 
 ### M0 脚手架与设计地基
+
 - Vite + React 19 + TS strict 初始化；ESLint + Prettier；Tailwind v4 接入。
 - `theme.css` 落地全部设计 tokens；实现 ui 组件中的 Button / Input / Dialog / Toast 并写一个临时 showcase 页面自验。
 - **验收**：`npm run dev` 打开 showcase，tokens 生效；`npm run build` 通过；`npm run lint` 无错。
 
 ### M1 数据层与核心思维流
+
 - 类型定义（7.3）、storage 适配层 + schema 迁移框架、Zustand stores。
 - 左侧栏会话 CRUD；主区输出块/断点的渲染与编辑；标签系统（预设写入、增删改、块标签编辑）。
 - **验收**：手动走查场景 1、2（建会话→写块→打标签→插断点→刷新数据还在）；storage 层有 Vitest 单测。
 
 ### M2 核心体验完善
+
 - 快捷键体系 + 命令面板 + 底部快捷工具条；会话搜索与拖拽排序；Markdown 导出；全局备份/恢复（含「不含 Key」默认与导入前自动备份）。
 - 空状态、加载与删除确认等细节打磨。
 - **验收**：F10/F11/F12 全部手动走查通过；备份 JSON 可无损往返（导出→清空→导入→数据一致）。
 
 ### M3 AI 底座：Provider 抽象 + AI 讨论
+
 - `lib/ai` 三个适配器 + 错误规范化；设置页 Provider 管理（含预设模板、测试连接）；AI 讨论抽屉（流式、停止、重试、清空、Markdown 渲染、指令 prompt 编辑、上下文指示）。
 - **验收**：用真实 DeepSeek 或 Kimi Key 完成至少一轮流式对话；断网/错 Key 的错误提示可读；`lib/ai` 有单测（mock fetch，覆盖三种格式的 SSE 解析）。
 
 ### M4 AI 增强三件套
+
 - 自动标签建议（F7）、会话总结（F8）、复盘报告（F9）。
 - **验收**：三功能各实测一次，输出质量达到「可直接读」；截断策略在长会话下生效（构造 >12000 字符会话验证）。
 
 ### M5 打磨与交付
+
 - 移除 showcase 等临时代码；全量 lint + 测试 + 构建；README 定稿（含 Windows 运行步骤、Provider 配置指引、CORS 说明）；
 - 性能检查：会话 50+ / 块 500+ 时无明显卡顿（必要时上虚拟滚动，非必需不做）。
 - **验收**：第 2 章 G1~G6 逐条核对通过。
@@ -532,22 +556,24 @@ interface ProviderAdapter {
 
 ## 12. 风险与应对
 
-| 风险 | 概率 | 应对 |
-|------|------|------|
-| 某 API 服务商浏览器 CORS 拦截 | 中 | 7.5 的 Vite proxy 预案 + README 说明 |
-| localStorage 5MB 容量上限 | 低（纯文本） | 设置页显示占用；导出备份兜底；storage 层预留 IndexedDB 切换能力 |
-| API Key 泄露顾虑 | 低 | D3：仅存本地、备份默认不含 Key、设置页明确提示 |
-| 各家 API 格式/模型名变动 | 中 | Provider 层隔离变化；模型名全部用户可配，不硬编码 |
-| Agent 实现偏差 | 中 | 里程碑验收逐条核对；TODO(question) 机制（第 0 章） |
+| 风险                          | 概率         | 应对                                                            |
+| ----------------------------- | ------------ | --------------------------------------------------------------- |
+| 某 API 服务商浏览器 CORS 拦截 | 中           | 7.5 的 Vite proxy 预案 + README 说明                            |
+| localStorage 5MB 容量上限     | 低（纯文本） | 设置页显示占用；导出备份兜底；storage 层预留 IndexedDB 切换能力 |
+| API Key 泄露顾虑              | 低           | D3：仅存本地、备份默认不含 Key、设置页明确提示                  |
+| 各家 API 格式/模型名变动      | 中           | Provider 层隔离变化；模型名全部用户可配，不硬编码               |
+| Agent 实现偏差                | 中           | 里程碑验收逐条核对；TODO(question) 机制（第 0 章）              |
 
 ---
 
 ## 13. 附录
 
 ### 13.1 后续候选（本期不做，仅记录）
+
 思维链可视化（时间线/图谱）、提示词与标签模板库、使用统计面板、暗色主题、移动端深度适配、云同步（届时再议账号与后端）。
 
 ### 13.2 可复用资产清单（本项目的隐性产出）
+
 1. `theme.css` 设计 token 体系（可直接搬进下一个项目）；
 2. `src/components/ui/` 组件资产（含 CommandPalette）；
 3. `lib/ai/` 三格式 Provider 抽象层（任何 BYOK 工具可复用）；
@@ -555,9 +581,11 @@ interface ProviderAdapter {
 5. 本文档本身（PRD + 技术方案模板）。
 
 ### 13.3 旧版参考
+
 旧版 README 要点（仅供理解，不照搬实现）：会话管理 / 输出块 / 思维标签 / 断点 / AI 讨论（DeepSeek）/ Markdown 导出 / 悬浮球 / 搜索排序 / 全局备份 / 快捷键 / AI 控制条 / localStorage 持久化。旧版存储键 `vibethinking:*` 与 `thought-debugger:*`——**新版不读取、不迁移**，键空间已更换为 `vt:v1:*`。
 
 ### 13.4 术语表
+
 - **输出块**：一条想法记录，思维流的基本单元。
 - **断点**：思考阶段的分隔标记，带备注。
 - **思维链**：一个会话内全部输出块与断点按时间序的完整序列。
@@ -566,4 +594,4 @@ interface ProviderAdapter {
 
 ---
 
-*文档完。执行 agent 请回到第 0 章，从 M0 开始。*
+_文档完。执行 agent 请回到第 0 章，从 M0 开始。_

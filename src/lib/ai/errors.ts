@@ -65,7 +65,10 @@ export function normalizeException(e: unknown): AIError {
   }
   // fetch 网络失败在浏览器里统一表现为 TypeError
   if (e instanceof TypeError) {
-    return new AIError('network', '网络请求失败：可能是断网、Base URL 错误，或该服务商拦截了浏览器跨域（CORS）');
+    return new AIError(
+      'network',
+      '网络请求失败：可能是断网、Base URL 错误，或该服务商拦截了浏览器跨域（CORS）',
+    );
   }
   return new AIError('unknown', msg);
 }
