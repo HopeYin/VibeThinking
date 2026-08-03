@@ -49,6 +49,7 @@ interface SessionsState {
   // ── AI 讨论 / 复盘（M3/M4 使用，先随模型落地）──
   setInstructionPrompt: (sessionId: string, prompt: string) => void;
   addAIMessage: (sessionId: string, msg: AIMessage) => void;
+  removeAIMessage: (sessionId: string, msgId: string) => void;
   patchAIMessage: (sessionId: string, msgId: string, patch: Partial<AIMessage>) => void;
   clearAIThread: (sessionId: string) => void;
   addReport: (sessionId: string, content: string) => void;
@@ -229,6 +230,14 @@ export const useSessionsStore = create<SessionsState>()(
           sessions: patchSession(st.sessions, sessionId, (s) => ({
             ...s,
             aiThread: [...s.aiThread, msg],
+          })),
+        })),
+
+      removeAIMessage: (sessionId, msgId) =>
+        set((st) => ({
+          sessions: patchSession(st.sessions, sessionId, (s) => ({
+            ...s,
+            aiThread: s.aiThread.filter((m) => m.id !== msgId),
           })),
         })),
 

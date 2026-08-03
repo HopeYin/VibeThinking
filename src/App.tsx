@@ -5,10 +5,13 @@
 import { useEffect, useMemo } from 'react';
 import { Lightbulb } from 'lucide-react';
 import { selectSortedSessions, useSessionsStore } from './stores/sessions';
+import { useSettingsStore } from './stores/settings';
 import { useUIStore } from './stores/ui';
 import { useGlobalShortcuts } from './hooks/useGlobalShortcuts';
+import { testProviderConnection } from './lib/ai';
 import { Button } from './components/ui/Button';
 import { EmptyState } from './components/ui/EmptyState';
+import { useToast } from './components/ui/Toast';
 import { CommandPalette, type CommandAction } from './components/ui/CommandPalette';
 import { TopBar } from './components/features/TopBar';
 import { Sidebar } from './components/features/Sidebar';
@@ -16,6 +19,7 @@ import { BlockList } from './components/features/BlockList';
 import { QuickToolbar } from './components/features/QuickToolbar';
 import { SettingsDialog } from './components/features/SettingsDialog';
 import { ShortcutHelpDialog } from './components/features/ShortcutHelpDialog';
+import { AIDrawer } from './components/features/AIDrawer';
 import { IMPORT_INPUT_ID } from './components/features/ImportButton';
 
 export default function App() {
@@ -37,6 +41,7 @@ export default function App() {
   const toggleAIDrawer = useUIStore((s) => s.toggleAIDrawer);
   const setExportMarkdownOpen = useUIStore((s) => s.setExportMarkdownOpen);
   const setExportBackupOpen = useUIStore((s) => s.setExportBackupOpen);
+  const toast = useToast();
 
   const sorted = selectSortedSessions(sessions);
   const activeSession = sessions.find((s) => s.id === activeSessionId) ?? null;
@@ -98,6 +103,26 @@ export default function App() {
         run: () => document.getElementById(IMPORT_INPUT_ID)?.click(),
       },
       {
+        id: 'test-connection',
+        title: '测试当前模型连接',
+        keywords: 'test connection ceshi lianjie',
+        run: () => {
+          const { providers, activeProviderId } = useSettingsStore.getState();
+          const provider = providers.find((p) => p.id === activeProviderId);
+          if (!provider) {
+            toast('尚未配置模型，请先在设置页添加 Provider', 'error');
+            return;
+          }
+          toast(`正在测试「${provider.name}」…`);
+          void testProviderConnection(provider).then((r) => {
+            toast(
+              r.ok ? `连接成功（${r.latencyMs} ms）` : `连接失败：${r.error ?? '未知错误'}`,
+              r.ok ? 'success' : 'error',
+            );
+          });
+        },
+      },
+      {
         id: 'open-settings',
         title: '设置',
         keywords: 'settings shezhi',
@@ -136,6 +161,7 @@ export default function App() {
     setHelpOpen,
     setExportMarkdownOpen,
     setExportBackupOpen,
+    toast,
   ]);
 
   return (
@@ -158,7 +184,7 @@ export default function App() {
             />
           )}
         </main>
-        {/* M3：AI 讨论抽屉 */}
+        <AIDrawer />
       </div>
 
       <SettingsDialog open={settingsOpen} onClose={() => setSettingsOpen(false)} />

@@ -16,6 +16,7 @@ import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { IconButton } from '../ui/IconButton';
 import { ConfirmDialog } from '../ui/ConfirmDialog';
+import { ProviderSection } from './ProviderSection';
 
 interface SettingsDialogProps {
   open: boolean;
@@ -26,11 +27,9 @@ export function SettingsDialog({ open, onClose }: SettingsDialogProps) {
   return (
     <Dialog open={open} onClose={onClose} title="设置" widthClassName="max-w-xl">
       <div className="max-h-[65vh] space-y-6 overflow-y-auto py-2 pr-1">
+        <ProviderSection />
         <TagManageSection />
         <StorageSection />
-        <p className="text-13 text-text-tertiary">
-          「模型服务」分区将在下一阶段（M3）上线，届时可在这里配置 DeepSeek / Kimi 等 Provider。
-        </p>
       </div>
     </Dialog>
   );
