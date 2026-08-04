@@ -6,6 +6,7 @@
 纯前端、无后端、无账号：数据全部保存在本机浏览器 localStorage，API Key 自带（BYOK）且只存本机。
 
 > 需求与技术方案：`VibeThinking.md`（PRD v1.0）。本 README 是运行与使用说明。
+> 新开发者/Agent 接手请先看 **`HANDOVER.md`（项目交接技术文档）**。
 
 ## 运行（Windows / PowerShell）
 
