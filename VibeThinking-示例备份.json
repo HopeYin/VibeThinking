@@ -1,0 +1,248 @@
+{
+  "app": "vibethinking",
+  "schemaVersion": 1,
+  "appVersion": "0.1.0",
+  "exportedAt": 1785760563641,
+  "includesApiKey": false,
+  "sessions": [
+    {
+      "id": "demo-session-tour",
+      "title": "示例：这个工具怎么用",
+      "sortOrder": 0,
+      "blocks": [
+        {
+          "id": "demo-b-1",
+          "kind": "output",
+          "content": "刚导入示例数据。随便点开看看：每条想法就是一个「输出块」，点一下就能改，写完点外面或按 Esc 收起来。",
+          "tagIds": [
+            "demo-tag-reflection"
+          ],
+          "createdAt": 1785483363641,
+          "updatedAt": 1785483363641
+        },
+        {
+          "id": "demo-b-2",
+          "kind": "output",
+          "content": "思维流就是一条时间线。写的时候不用管格式、不用管对错，先记下来再说——整理是后面的事。",
+          "tagIds": [
+            "demo-tag-analogy"
+          ],
+          "createdAt": 1785486963641,
+          "updatedAt": 1785486963641
+        },
+        {
+          "id": "demo-bp-3",
+          "kind": "breakpoint",
+          "note": "第一阶段：熟悉基本操作",
+          "createdAt": 1785490563641
+        },
+        {
+          "id": "demo-b-4",
+          "kind": "output",
+          "content": "给块打标签，是在标记「我刚才用了什么思维方式」。点块下方的「+ 标签」试试，预设的 8 个不够用还能自己建。",
+          "tagIds": [
+            "demo-tag-system"
+          ],
+          "createdAt": 1785566163641,
+          "updatedAt": 1785566163641
+        },
+        {
+          "id": "demo-b-5",
+          "kind": "output",
+          "content": "Alt+N 新块、Alt+B 断点、Alt+I 召唤 AI、Ctrl+K 命令面板。四个键按一遍，基本就毕业了。",
+          "tagIds": [
+            "demo-tag-first-principles"
+          ],
+          "createdAt": 1785569763641,
+          "updatedAt": 1785569763641
+        },
+        {
+          "id": "demo-bp-6",
+          "kind": "breakpoint",
+          "note": "第二阶段：AI 怎么参与进来",
+          "createdAt": 1785573363641
+        },
+        {
+          "id": "demo-b-7",
+          "kind": "output",
+          "content": "打开右侧 AI 讨论（Alt+I）：它已经读过这整条思维链，你不用像对普通聊天机器人那样重复背景。",
+          "tagIds": [],
+          "createdAt": 1785663363641,
+          "updatedAt": 1785663363641
+        },
+        {
+          "id": "demo-b-8",
+          "kind": "output",
+          "content": "AI 还能干三件事：hover 一个块点 ✨ 让它建议标签；命令面板里「总结本会话」；「生成复盘报告」。都要先在设置页配好 API Key。",
+          "tagIds": [
+            "demo-tag-8020"
+          ],
+          "createdAt": 1785666963641,
+          "updatedAt": 1785666963641
+        }
+      ],
+      "aiThread": [
+        {
+          "id": "demo-m-9",
+          "role": "user",
+          "content": "这个工具和普通备忘录有什么区别？",
+          "status": "done",
+          "createdAt": 1785670563641
+        },
+        {
+          "id": "demo-m-10",
+          "role": "assistant",
+          "content": "最大的区别是**上下文**。我不是只看你这一句话，而是已经读过你这条思维链的全部输出块和断点——你前面写了「先记下来再说，整理是后面的事」，所以我的建议会直接接在你的思路上，而不是客套的泛泛而谈。\n\n另外三处不同：\n\n- **断点**把思考切成阶段，我能看出你在哪个阶段卡住了\n- **标签**暴露你的思维习惯（比如你是不是很少用逆向思考）\n- 备忘录负责「存」，我负责「接着想」",
+          "status": "done",
+          "createdAt": 1785670623641
+        }
+      ],
+      "instructionPrompt": "",
+      "reports": [],
+      "createdAt": 1785483363641,
+      "updatedAt": 1785670623641
+    },
+    {
+      "id": "demo-session-direction",
+      "title": "机器人工程方向瞎想",
+      "sortOrder": 1,
+      "blocks": [
+        {
+          "id": "demo-b-11",
+          "kind": "output",
+          "content": "我到底喜欢机器人的什么？拆到最小单元：大概是「让一堆零件动起来并且听我使唤」的那种快感。写代码让电机转起来的瞬间，比考高分爽。",
+          "tagIds": [
+            "demo-tag-first-principles"
+          ],
+          "createdAt": 1785299763641,
+          "updatedAt": 1785299763641
+        },
+        {
+          "id": "demo-b-12",
+          "kind": "output",
+          "content": "方向候选先全列出来不评价：ROS/运动控制、嵌入式、机器视觉、强化学习、机械结构设计。",
+          "tagIds": [],
+          "createdAt": 1785303363641,
+          "updatedAt": 1785303363641
+        },
+        {
+          "id": "demo-bp-13",
+          "kind": "breakpoint",
+          "note": "先罗列，后排除",
+          "createdAt": 1785382563641
+        },
+        {
+          "id": "demo-b-14",
+          "kind": "output",
+          "content": "全部都要 = 全部都要不到。这学期满打满算，课余精力只够真正深挖一个方向。",
+          "tagIds": [
+            "demo-tag-opportunity-cost"
+          ],
+          "createdAt": 1785386163641,
+          "updatedAt": 1785386163641
+        },
+        {
+          "id": "demo-b-15",
+          "kind": "output",
+          "content": "从就业看：视觉+深度学习的岗位基数最大，但基数大 = 卷得厉害；运动控制+嵌入式岗位少，但竞争者里真正能打的也少。",
+          "tagIds": [
+            "demo-tag-probability"
+          ],
+          "createdAt": 1785396963641,
+          "updatedAt": 1785396963641
+        },
+        {
+          "id": "demo-b-16",
+          "kind": "output",
+          "content": "等一下——我注意到自己在用「哪个好就业」来回避「我喜欢哪个」这个问题。这是个危险信号。",
+          "tagIds": [
+            "demo-tag-reflection"
+          ],
+          "createdAt": 1785465363641,
+          "updatedAt": 1785465363641
+        },
+        {
+          "id": "demo-b-17",
+          "kind": "output",
+          "content": "下一步：花 20% 时间各做一个最小 demo——视觉做一个「识别手势控制网页翻页」，控制做一个「PID 平衡杆」。哪个让我做到忘记吃饭，就选哪个。",
+          "tagIds": [
+            "demo-tag-8020"
+          ],
+          "createdAt": 1785558963641,
+          "updatedAt": 1785558963641
+        }
+      ],
+      "aiThread": [],
+      "instructionPrompt": "",
+      "reports": [
+        {
+          "id": "demo-r-18",
+          "createdAt": 1785652563641,
+          "content": "## 思维轨迹\n\n第一阶段你在做自我剖析：从「喜欢机器人的什么」出发，拆到了最朴素的驱动力。第二阶段转向现实决策：列出五个候选方向，开始用机会成本、概率思维做排除。\n\n## 思维模式使用\n\n标签分布：第一性原理×1、机会成本×1、概率思维×1、反思×1、二八法则×1。思维工具使用相当均衡，没有单一依赖。尤其「反思」的那一次自我纠偏，是整条链里质量最高的动作。\n\n## 亮点\n\n1. **「我在用好就业回避我喜欢哪个」**——能抓到自己的思维偏差，比任何外部建议都值钱。\n2. **最小 demo 验证法**：把「选方向」这个抽象焦虑，转化成了两个两周内可执行的具体实验。\n\n## 卡点与盲区\n\n- 五个候选方向的「排除标准」始终模糊：除了就业和兴趣，没有第三条轴（比如：你的既有基础、能接触到的资源/老师）。\n- 「做到忘记吃饭」这个判据很浪漫但不可观测，需要提前定义记录方式（比如连续心流时长）。\n\n## 下一步建议\n\n1. 今晚就把两个 demo 的「最小可运行版本」拆成 checklist，各不超过 10 条。\n2. 给两个 demo 各设一个 7 天截止点，到点必须凭记录做判断，禁止无限延长。\n3. 找一位做过控制方向的学长聊 30 分钟，补上「真实日常是什么样」这一盲区。"
+        }
+      ],
+      "summary": {
+        "createdAt": 1785652563641,
+        "content": "**先罗列后排除**：你先在五个方向（ROS 控制、嵌入式、视觉、强化学习、结构）中明确了精力只够深挖一个。\n\n**关键转折**：你意识到自己在用「好就业」回避「喜欢哪个」，这是本会话最重要的一次自我纠偏。\n\n**总览**：从「我喜欢机器人的什么」出发，最终收敛到一个可执行方案——用两个最小 demo 实测兴趣，凭心流体验做选择。"
+      },
+      "createdAt": 1785299763641,
+      "updatedAt": 1785652563641
+    }
+  ],
+  "tags": [
+    {
+      "id": "demo-tag-first-principles",
+      "name": "第一性原理",
+      "color": "blue",
+      "isPreset": true
+    },
+    {
+      "id": "demo-tag-inversion",
+      "name": "逆向思考",
+      "color": "red",
+      "isPreset": true
+    },
+    {
+      "id": "demo-tag-analogy",
+      "name": "类比",
+      "color": "purple",
+      "isPreset": true
+    },
+    {
+      "id": "demo-tag-system",
+      "name": "系统思考",
+      "color": "green",
+      "isPreset": true
+    },
+    {
+      "id": "demo-tag-probability",
+      "name": "概率思维",
+      "color": "yellow",
+      "isPreset": true
+    },
+    {
+      "id": "demo-tag-opportunity-cost",
+      "name": "机会成本",
+      "color": "orange",
+      "isPreset": true
+    },
+    {
+      "id": "demo-tag-8020",
+      "name": "二八法则",
+      "color": "pink",
+      "isPreset": true
+    },
+    {
+      "id": "demo-tag-reflection",
+      "name": "反思",
+      "color": "gray",
+      "isPreset": true
+    }
+  ],
+  "settings": {
+    "providers": [],
+    "activeProviderId": null,
+    "activeModel": null,
+    "sidebarCollapsed": false
+  }
+}
